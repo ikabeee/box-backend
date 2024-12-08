@@ -12,3 +12,43 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id             Int       @id @default(autoincrement())
+  email          String    @unique
+  family_name    String?
+  given_name     String
+  picture        String?
+  name           String?
+  verified_email Boolean   @default(false)
+  payment        Payment[]
+  cart           Cart?
+}
+
+model MisteryBoxes {
+  id           Int         @id @default(autoincrement())
+  name         String
+  price        Float
+  restaurantId Int?
+  restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+}
+
+model Restaurant {
+  id         Int            @id @default(autoincrement())
+  name       String         @unique
+  lng        Float
+  lat        Float
+  misteryBox MisteryBoxes[]
+}
+
+model Cart {
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+}
+
+model Payment {
+  id     Int   @id @default(autoincrement())
+  userId Int?
+  User   User? @relation(fields: [userId], references: [id])
+}
