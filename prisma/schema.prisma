@@ -37,8 +37,6 @@ model MisteryBoxes {
 model Restaurant {
   id         Int            @id @default(autoincrement())
   name       String         @unique
-  lng        Float
-  lat        Float
   misteryBox MisteryBoxes[]
 }
 
