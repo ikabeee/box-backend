@@ -2,10 +2,12 @@
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
-    "family_name" TEXT,
+    "phone" TEXT NOT NULL,
+    "family_name" TEXT NOT NULL,
     "given_name" TEXT NOT NULL,
     "picture" TEXT,
     "name" TEXT,
+    "password" TEXT NOT NULL,
     "verified_email" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
@@ -25,8 +27,6 @@ CREATE TABLE "MisteryBoxes" (
 CREATE TABLE "Restaurant" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "lng" DOUBLE PRECISION NOT NULL,
-    "lat" DOUBLE PRECISION NOT NULL,
 
     CONSTRAINT "Restaurant_pkey" PRIMARY KEY ("id")
 );
@@ -35,13 +35,26 @@ CREATE TABLE "Restaurant" (
 CREATE TABLE "Cart" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
+    "totalPrice" DOUBLE PRECISION NOT NULL,
 
     CONSTRAINT "Cart_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
+CREATE TABLE "CartItem" (
+    "id" SERIAL NOT NULL,
+    "quantity" INTEGER NOT NULL DEFAULT 1,
+    "totalPrice" DOUBLE PRECISION,
+    "misteryBoxId" INTEGER NOT NULL,
+    "cartId" INTEGER NOT NULL,
+
+    CONSTRAINT "CartItem_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Payment" (
     "id" SERIAL NOT NULL,
+    "stripePaymentId" TEXT NOT NULL,
     "userId" INTEGER,
 
     CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")
@@ -61,6 +74,12 @@ ALTER TABLE "MisteryBoxes" ADD CONSTRAINT "MisteryBoxes_restaurantId_fkey" FOREI
 
 -- AddForeignKey
 ALTER TABLE "Cart" ADD CONSTRAINT "Cart_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_misteryBoxId_fkey" FOREIGN KEY ("misteryBoxId") REFERENCES "MisteryBoxes"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Payment" ADD CONSTRAINT "Payment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

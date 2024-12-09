@@ -4,6 +4,7 @@ import { AuthController } from './auth.controller';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JWT_SECRET } from 'src/secrets/const';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { JWT_SECRET } from 'src/secrets/const';
       signOptions: { expiresIn: '30m' },
     }),
     PrismaModule,
+    UserModule
   ],
   controllers: [AuthController],
   providers: [AuthService],

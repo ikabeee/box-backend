@@ -14,7 +14,7 @@ export class UserService {
   constructor(private readonly prisma: PrismaService) {}
   async createUser(user: CreateUserDto): Promise<User> {
     try {
-      const hashPassword = await bcrypt.hash.hash(user.password, 10);
+      const hashPassword = await bcrypt.hash(user.password, 10);
       const overwritePassword = { ...user, password: hashPassword };
       return await this.prisma.user.create({ data: { ...overwritePassword } });
     } catch (e) {
