@@ -12,6 +12,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CLIENT_ID } from 'src/secrets/const';
 import { UserService } from 'src/user/user.service';
 import { AuthInputDto } from './dto/auth-input.dto';
+
 @Injectable()
 export class AuthService {
   private googleClient: OAuth2Client;
@@ -54,19 +55,28 @@ export class AuthService {
       if (!user) {
         throw new UnauthorizedException();
       }
-      // return this.login(login);
+      return this.login(login);
     } catch (e) {
       throw new InternalServerErrorException('ERROR_INNESPERADO', e);
     }
   }
 
-  // async login(user: AuthInputDto){
-  //   try {
-
-  //   } catch (e) {
-  //     throw new InternalServerErrorException('ERROR_INNESPERADO', e);
-  //   }
-  // }
+  async login(user: AuthInputDto, validateUser: { id: number; email: string }) {
+    try {
+      const payload = {
+        sub: validateUser.id,
+        email: validateUser.email,
+      };
+      const token = await this.jwtService.signAsync(payload);
+      return {
+        token,
+        id: validateUser.id,
+        email: validateUser.email,
+      };
+    } catch (e) {
+      throw new InternalServerErrorException('ERROR_INNESPERADO', e);
+    }
+  }
 
   generateRandomPassword(length = 16) {
     const lowercase = 'abcdefghijklmnopqrstuvwxyz';
