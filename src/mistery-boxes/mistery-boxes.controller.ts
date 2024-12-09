@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { MisteryBoxesService } from './mistery-boxes.service';
 import { CreateMisteryBoxDto } from './dto/create-mistery-box.dto';
 import { UpdateMisteryBoxDto } from './dto/update-mistery-box.dto';
@@ -7,28 +16,31 @@ import { UpdateMisteryBoxDto } from './dto/update-mistery-box.dto';
 export class MisteryBoxesController {
   constructor(private readonly misteryBoxesService: MisteryBoxesService) {}
 
-  @Post()
-  create(@Body() createMisteryBoxDto: CreateMisteryBoxDto) {
-    return this.misteryBoxesService.create(createMisteryBoxDto);
+  @Post('create')
+  async creacreateBoxte(@Body() box: CreateMisteryBoxDto) {
+    return this.misteryBoxesService.createBox(box);
   }
 
-  @Get()
-  findAll() {
+  @Get('all')
+  async findAll() {
     return this.misteryBoxesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.misteryBoxesService.findOne(+id);
+  async findBox(@Param('id', ParseIntPipe) id: string) {
+    return this.misteryBoxesService.findBox(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMisteryBoxDto: UpdateMisteryBoxDto) {
-    return this.misteryBoxesService.update(+id, updateMisteryBoxDto);
+  @Patch('update/:id')
+  async updateBox(
+    @Param('id', ParseIntPipe) id: string,
+    @Body() box: UpdateMisteryBoxDto,
+  ) {
+    return this.misteryBoxesService.updateBox(+id, box);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.misteryBoxesService.remove(+id);
+  @Delete('delete/:id')
+  async deleteBox(@Param('id', ParseIntPipe) id: string) {
+    return this.misteryBoxesService.deleteBox(+id);
   }
 }
