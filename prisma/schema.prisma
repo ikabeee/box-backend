@@ -45,7 +45,7 @@ model Restaurant {
 model Cart {
   id         Int        @id @default(autoincrement())
   userId     Int        @unique
-  totalPrice Float
+  totalPrice Float?
   cartItem   CartItem[]
   user       User       @relation(fields: [userId], references: [id])
 }
