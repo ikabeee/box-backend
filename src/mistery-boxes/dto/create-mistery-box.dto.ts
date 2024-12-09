@@ -9,4 +9,7 @@ export class CreateMisteryBoxDto {
   price: number;
   @IsNumber()
   restaurantId: number;
+  @IsNotEmpty()
+  @IsNumber()
+  stock: number;
 }
