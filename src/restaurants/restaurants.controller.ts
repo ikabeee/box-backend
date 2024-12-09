@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { RestaurantsService } from './restaurants.service';
 import { CreateRestaurantDto } from './dto/create-restaurant.dto';
 import { UpdateRestaurantDto } from './dto/update-restaurant.dto';
@@ -7,28 +16,31 @@ import { UpdateRestaurantDto } from './dto/update-restaurant.dto';
 export class RestaurantsController {
   constructor(private readonly restaurantsService: RestaurantsService) {}
 
-  @Post()
-  create(@Body() createRestaurantDto: CreateRestaurantDto) {
-    return this.restaurantsService.create(createRestaurantDto);
+  @Post('create')
+  async createRestaurant(@Body() restaurant: CreateRestaurantDto) {
+    return this.restaurantsService.createRestaurant(restaurant);
   }
 
-  @Get()
-  findAll() {
+  @Get('all')
+  async findAll() {
     return this.restaurantsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.restaurantsService.findOne(+id);
+  async findRestaurant(@Param('id', ParseIntPipe) id: string) {
+    return this.restaurantsService.findRestaurant(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRestaurantDto: UpdateRestaurantDto) {
-    return this.restaurantsService.update(+id, updateRestaurantDto);
+  @Patch('update/:id')
+  async updateRestaurant(
+    @Param('id', ParseIntPipe) id: string,
+    @Body() restaurant: UpdateRestaurantDto,
+  ) {
+    return this.restaurantsService.updateRestaurant(+id, restaurant);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.restaurantsService.remove(+id);
+  @Delete('delete/:id')
+  async deleteRestaurant(@Param('id', ParseIntPipe) id: string) {
+    return this.restaurantsService.deleteRestaurant(+id);
   }
 }

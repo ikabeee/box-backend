@@ -5,6 +5,8 @@ import { MisteryBoxesModule } from './mistery-boxes/mistery-boxes.module';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 import { CartModule } from './cart/cart.module';
 import { PaymentModule } from './payment/payment.module';
+import { PrismaService } from './prisma/prisma.service';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -14,8 +16,9 @@ import { PaymentModule } from './payment/payment.module';
     RestaurantsModule,
     CartModule,
     PaymentModule,
+    PrismaModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [PrismaService],
 })
 export class AppModule {}
