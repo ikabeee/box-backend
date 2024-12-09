@@ -6,7 +6,7 @@ export class CreateUserDto {
   email: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   phone: string;
 
   @IsString()
@@ -28,7 +28,7 @@ export class CreateUserDto {
   @IsOptional()
   @IsBoolean()
   verified_email: boolean;
-  
+
   @IsNotEmpty()
   @IsString()
   password: string;
