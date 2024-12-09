@@ -7,6 +7,7 @@ import { CartModule } from './cart/cart.module';
 import { PaymentModule } from './payment/payment.module';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
+import { CartItemModule } from './cart-item/cart-item.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { PrismaModule } from './prisma/prisma.module';
     CartModule,
     PaymentModule,
     PrismaModule,
+    CartItemModule,
   ],
   controllers: [],
   providers: [PrismaService],
