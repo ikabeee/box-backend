@@ -1,1 +1,4 @@
-export class CreateCartDto {}
+// export class CreateCartDto {
+//     userId: number;
+//     totalPrice: number;
+// }

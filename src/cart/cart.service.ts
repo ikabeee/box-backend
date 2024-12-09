@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCartDto } from './dto/create-cart.dto';
-import { UpdateCartDto } from './dto/update-cart.dto';
+// import { CreateCartDto } from './dto/create-cart.dto';
+// import { UpdateCartDto } from './dto/update-cart.dto';
 
 @Injectable()
 export class CartService {
-  create(createCartDto: CreateCartDto) {
-    return 'This action adds a new cart';
-  }
+  // async create(cart: CreateCartDto) {
+  //   try {
 
-  findAll() {
-    return `This action returns all cart`;
-  }
+  //   } catch (e) {
+  //     throw new InternalServerErrorException('ERROR_INNESPERADO', e);
+  //   }
+  // }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cart`;
-  }
+  // async findAll() {
+  //   try {
 
-  update(id: number, updateCartDto: UpdateCartDto) {
-    return `This action updates a #${id} cart`;
-  }
+  //   } catch (e) {
+  //     throw new InternalServerErrorException('ERROR_INNESPERADO', e);
+  //   }
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} cart`;
-  }
+  // async findOne(id: number) {
+  //   try {
+
+  //   } catch (e) {
+  //     throw new InternalServerErrorException('ERROR_INNESPERADO', e);
+  //   }
+  // }
+
+  // async update(id: number, updateCartDto: UpdateCartDto) {
+  //   try {
+
+  //   } catch (e) {
+  //     throw new InternalServerErrorException('ERROR_INNESPERADO', e);
+  //   }
+  // }
+
+  // async remove(id: number) {
+  //   try {
+
+  //   } catch (e) {
+  //     throw new InternalServerErrorException('ERROR_INNESPERADO', e);
+  //   }
+  // }
 }
