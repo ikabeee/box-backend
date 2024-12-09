@@ -31,6 +31,7 @@ model MisteryBoxes {
   name         String
   price        Float
   stock        Int
+  details      String      @db.Text
   restaurantId Int?
   cartItem     CartItem[]
   restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
