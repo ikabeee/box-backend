@@ -18,6 +18,7 @@ CREATE TABLE "MisteryBoxes" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
+    "stock" INTEGER NOT NULL,
     "restaurantId" INTEGER,
 
     CONSTRAINT "MisteryBoxes_pkey" PRIMARY KEY ("id")
@@ -51,15 +52,6 @@ CREATE TABLE "CartItem" (
     CONSTRAINT "CartItem_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
-CREATE TABLE "Payment" (
-    "id" SERIAL NOT NULL,
-    "stripePaymentId" TEXT NOT NULL,
-    "userId" INTEGER,
-
-    CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")
-);
-
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -80,6 +72,3 @@ ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_cartId_fkey" FOREIGN KEY ("cartI
 
 -- AddForeignKey
 ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_misteryBoxId_fkey" FOREIGN KEY ("misteryBoxId") REFERENCES "MisteryBoxes"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Payment" ADD CONSTRAINT "Payment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
