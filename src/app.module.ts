@@ -4,7 +4,6 @@ import { AuthModule } from './auth/auth.module';
 import { MisteryBoxesModule } from './mistery-boxes/mistery-boxes.module';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 import { CartModule } from './cart/cart.module';
-import { PaymentModule } from './payment/payment.module';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { CartItemModule } from './cart-item/cart-item.module';
@@ -16,7 +15,6 @@ import { CartItemModule } from './cart-item/cart-item.module';
     MisteryBoxesModule,
     RestaurantsModule,
     CartModule,
-    PaymentModule,
     PrismaModule,
     CartItemModule,
   ],

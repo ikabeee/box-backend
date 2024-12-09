@@ -26,7 +26,6 @@ export class UserService {
     try {
       return this.prisma.user.findMany({
         include: {
-          payment: true,
           cart: true,
         },
       });
@@ -40,7 +39,6 @@ export class UserService {
       const findUser = await this.prisma.user.findUnique({
         where: { id },
         include: {
-          payment: true,
           cart: true,
         },
       });

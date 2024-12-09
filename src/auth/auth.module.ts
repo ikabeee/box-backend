@@ -14,7 +14,7 @@ import { UserModule } from 'src/user/user.module';
       signOptions: { expiresIn: '30m' },
     }),
     PrismaModule,
-    UserModule
+    UserModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],
