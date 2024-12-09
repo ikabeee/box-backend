@@ -30,6 +30,7 @@ model MisteryBoxes {
   name         String
   price        Float
   restaurantId Int?
+  cartItem     CartItem[]
   restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
 }
 
@@ -42,13 +43,26 @@ model Restaurant {
 }
 
 model Cart {
-  id     Int  @id @default(autoincrement())
-  userId Int  @unique
-  user   User @relation(fields: [userId], references: [id])
+  id         Int        @id @default(autoincrement())
+  userId     Int        @unique
+  totalPrice Float
+  cartItem   CartItem[]
+  user       User       @relation(fields: [userId], references: [id])
+}
+
+model CartItem {
+  id           Int          @id @default(autoincrement())
+  quantity     Int          @default(1)
+  totalPrice   Float?
+  misteryBoxId Int
+  cartId       Int
+  cart         Cart         @relation(fields: [cartId], references: [id])
+  misteryBox   MisteryBoxes @relation(fields: [misteryBoxId], references: [id])
 }
 
 model Payment {
-  id     Int   @id @default(autoincrement())
-  userId Int?
-  User   User? @relation(fields: [userId], references: [id])
+  id              Int    @id @default(autoincrement())
+  stripePaymentId String
+  userId          Int?
+  user            User?  @relation(fields: [userId], references: [id])
 }
