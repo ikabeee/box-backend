@@ -6,18 +6,22 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CartItemService } from './cart-item.service';
 import { CreateCartItemDto } from './dto/create-cart-item.dto';
-import { UpdateCartItemDto } from './dto/update-cart-item.dto';
-
 @Controller('cart-item')
 export class CartItemController {
   constructor(private readonly cartItemService: CartItemService) {}
 
-  @Post('create')
-  async create(@Body() createCartItemDto: CreateCartItemDto) {
-    return this.cartItemService.create(createCartItemDto);
+  @Post('add')
+  async addItem(@Body() createCartItemDto: CreateCartItemDto) {
+    return this.cartItemService.addItem(createCartItemDto);
+  }
+
+  @Get(':id')
+  async findItem(@Param('id', ParseIntPipe) id: string) {
+    return this.cartItemService.findItem(+id);
   }
 
   @Get('all')
@@ -25,21 +29,18 @@ export class CartItemController {
     return this.cartItemService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.cartItemService.findOne(+id);
+  @Patch('addQuantity/:id')
+  async addQuantity(@Param('id', ParseIntPipe) id: string) {
+    return this.cartItemService.addQuantity(+id);
   }
 
-  @Patch('update/:id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateCartItemDto: UpdateCartItemDto,
-  ) {
-    return this.cartItemService.update(+id, updateCartItemDto);
+  @Patch('decrementQuantity/:id')
+  async decrementQuantity(@Param('id', ParseIntPipe) id: string) {
+    return this.cartItemService.decrementQuantity(+id);
   }
 
   @Delete('delete/:id')
-  async remove(@Param('id') id: string) {
-    return this.cartItemService.remove(+id);
+  async deleteItem(@Param('id', ParseIntPipe) id: string) {
+    return this.cartItemService.deleteItem(+id);
   }
 }
