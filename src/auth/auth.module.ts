@@ -6,7 +6,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { JWT_SECRET } from 'src/secrets/const';
 
 @Module({
-  imports: [JwtModule.register({ secret: JWT_SECRET }), PrismaModule],
+  imports: [
+    JwtModule.register({
+      global: true,
+      secret: JWT_SECRET.secret,
+      signOptions: { expiresIn: '30m' },
+    }),
+    PrismaModule,
+  ],
   controllers: [AuthController],
   providers: [AuthService],
 })

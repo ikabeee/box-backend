@@ -1,8 +1,8 @@
 import {
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as crypto from 'crypto';
@@ -24,55 +24,20 @@ export class AuthService {
     this.googleClient = new OAuth2Client(CLIENT_ID);
   }
 
-  async validateUser(login: AuthInputDto) {
+  async login(user: AuthInputDto) {
     try {
-      const user = await this.prisma.user.findFirst({
-        where: { email: login.email },
-      });
-      if (!user) {
-        throw new NotFoundException('USUARIO_NO_ENCONTRADO');
+      const { email, password } = user;
+      const findUser = await this.prisma.user.findFirst({ where: { email } });
+      if (!findUser) {
+        throw new NotFoundException('USER_NOT_FOUND');
       }
-      const unhashPassword = await bcrypt.compare(
-        login.password,
-        user.password,
-      );
-
-      if (user && unhashPassword) {
-        return {
-          id: user.id,
-          email: user.email,
-        };
+      const comparePassword = await bcrypt.compare(password, findUser.password);
+      if (!comparePassword) {
+        throw new ForbiddenException('INCORRECT_PASSWORD');
       }
-      return null;
-    } catch (e) {
-      throw new InternalServerErrorException('ERROR_INNESPERADO', e);
-    }
-  }
-
-  async auth(login: AuthInputDto) {
-    try {
-      const user = await this.validateUser(login);
-      if (!user) {
-        throw new UnauthorizedException();
-      }
-      return this.login(login);
-    } catch (e) {
-      throw new InternalServerErrorException('ERROR_INNESPERADO', e);
-    }
-  }
-
-  async login(user: AuthInputDto, validateUser: { id: number; email: string }) {
-    try {
-      const payload = {
-        sub: validateUser.id,
-        email: validateUser.email,
-      };
+      const payload = { id: findUser.id, name: findUser.email };
       const token = await this.jwtService.signAsync(payload);
-      return {
-        token,
-        id: validateUser.id,
-        email: validateUser.email,
-      };
+      return { token };
     } catch (e) {
       throw new InternalServerErrorException('ERROR_INNESPERADO', e);
     }
